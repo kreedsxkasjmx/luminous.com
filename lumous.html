@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luminous Blog - Where Ideas Shine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                        accent: '#f59e0b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .article-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1.5rem;
+            color: #1e293b;
+        }
+        
+        .article-content img {
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tag {
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #6366f1;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        
+        .mobile-menu.open {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-primary text-2xl font-bold"><i class="fas fa-bolt mr-2"></i>Luminous</span>
+                    </div>
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="#" class="nav-link text-dark hover:text-primary px-3 py-2 text-sm font-medium">Home</a>
+                        <a href="atilcles.html" class="nav-link text-dark hover:text-primary px-3 py-2 text-sm font-medium">Articles</a>
+                        <a href="#" class="nav-link text-dark hover:text-primary px-3 py-2 text-sm font-medium">Categories</a>
+                        <a href="#" class="nav-link text-dark hover:text-primary px-3 py-2 text-sm font-medium">About</a>
+                        <a href="#" class="nav-link text-dark hover:text-primary px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300">
+                        Subscribe
+                    </button>
+                    <button class="text-dark hover:text-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button onclick="toggleMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-dark hover:text-primary focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="mobile-menu md:hidden bg-white">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Home</a>
+                <a href="atilcles.html" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Articles</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Categories</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">About</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-dark hover:text-primary hover:bg-gray-50">Contact</a>
+                <div class="px-3 py-2">
+                    <button class="w-full bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif mb-6 animate-slide-up">
+                    Where <span class="text-accent">Ideas</span> Shine Bright
+                </h1>
+                <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-8 opacity-90 animate-slide-up" style="animation-delay: 0.2s;">
+                    Discover thought-provoking articles, inspiring stories, and expert insights to fuel your curiosity.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 animate-slide-up" style="animation-delay: 0.4s;">
+                    <button class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-md text-lg font-medium transition duration-300 shadow-lg">
+                        Explore Articles
+                    </button>
+                    <button class="bg-transparent border-2 border-white hover:bg-white/10 px-6 py-3 rounded-md text-lg font-medium transition duration-300">
+                        <i class="fas fa-envelope mr-2"></i> Subscribe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Articles -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-16">
+            <span class="text-primary font-medium">LATEST ARTICLES</span>
+            <h2 class="text-3xl md:text-4xl font-serif font-bold mt-2">Featured Content</h2>
+            <div class="w-20 h-1 bg-primary mx-auto mt-4"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Article 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover animate-fade-in">
+                <div class="relative pb-48 overflow-hidden">
+                    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Article image">
+                    <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
+                        Technology
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>June 15, 2023</span>
+                        <span class="mx-2">•</span>
+                        <span>8 min read</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-3">The Future of AI in Everyday Life</h3>
+                    <p class="text-gray-600 mb-4">Exploring how artificial intelligence is transforming our daily routines and what to expect in the coming years.</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Author">
+                        <div>
+                            <p class="text-sm font-medium">Sarah Johnson</p>
+                            <p class="text-xs text-gray-500">AI Researcher</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Article 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="relative pb-48 overflow-hidden">
+                    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Article image">
+                    <div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-xs font-medium">
+                        Business
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>June 10, 2023</span>
+                        <span class="mx-2">•</span>
+                        <span>12 min read</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-3">Remote Work: The New Normal</h3>
+                    <p class="text-gray-600 mb-4">How companies are adapting to the remote work revolution and what it means for the future of office culture.</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author">
+                        <div>
+                            <p class="text-sm font-medium">Michael Chen</p>
+                            <p class="text-xs text-gray-500">Business Strategist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Article 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="relative pb-48 overflow-hidden">
+                    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Article image">
+                    <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-medium">
+                        Food
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>June 5, 2023</span>
+                        <span class="mx-2">•</span>
+                        <span>6 min read</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-3">The Art of Mindful Eating</h3>
+                    <p class="text-gray-600 mb-4">Discover how slowing down and being present with your food can transform your relationship with eating.</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Author">
+                        <div>
+                            <p class="text-sm font-medium">Emma Rodriguez</p>
+                            <p class="text-xs text-gray-500">Nutritionist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article 4 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover animate-fade-in" style="animation-delay: 0.6s;">
+                <div class="relative pb-48 overflow-hidden">
+                    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Article image">
+                    <div class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                        Travel
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>May 28, 2023</span>
+                        <span class="mx-2">•</span>
+                        <span>10 min read</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-3">Hidden Gems of Southeast Asia</h3>
+                    <p class="text-gray-600 mb-4">Uncover the less-traveled paths and authentic experiences in Southeast Asia's most beautiful destinations.</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/45.jpg" alt="Author">
+                        <div>
+                            <p class="text-sm font-medium">David Wilson</p>
+                            <p class="text-xs text-gray-500">Travel Writer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article 5 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover animate-fade-in" style="animation-delay: 0.8s;">
+                <div class="relative pb-48 overflow-hidden">
+                    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Article image">
+                    <div class="absolute top-4 right-4 bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                        Photography
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>May 22, 2023</span>
+                        <span class="mx-2">•</span>
+                        <span>7 min read</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-3">Mastering Night Photography</h3>
+                    <p class="text-gray-600 mb-4">Essential techniques and gear recommendations for capturing stunning images after dark.</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/32.jpg" alt="Author">
+                        <div>
+                            <p class="text-sm font-medium">Lisa Thompson</p>
+                            <p class="text-xs text-gray-500">Professional Photographer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article 6 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-md card-hover animate-fade-in" style="animation-delay: 1.0s;">
+                <div class="relative pb-48 overflow-hidden">
+                    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1571019613454-1cb2f5b2f836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Article image">
+                    <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                        Health
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>May 15, 2023</span>
+                        <span class="mx-2">•</span>
+                        <span>9 min read</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold mb-3">The Science of Better Sleep</h3>
+                    <p class="text-gray-600 mb-4">Evidence-based strategies to improve your sleep quality and wake up more refreshed every morning.</p>
+                    <div class="flex items-center">
+                        <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/68.jpg" alt="Author">
+                        <div>
+                            <p class="text-sm font-medium">Dr. Robert Park</p>
+                            <p class="text-xs text-gray-500">Sleep Specialist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div  class="text-center mt-12">
+            <a href="atilcles.html"><button class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-md text-lg font-medium transition duration-300">
+                View All Articles <i class="fas fa-arrow-right ml-2"></i></a>
+            </button>
+        </div>
+    </div>
+
+    <!-- Popular Categories -->
+    <div class="bg-gray-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-medium">EXPLORE TOPICS</span>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mt-2">Popular Categories</h2>
+                <div class="w-20 h-1 bg-primary mx-auto mt-4"></div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <a href="#" class="tag bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                    <div class="text-primary text-3xl mb-3">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="font-medium">Technology</h3>
+                    <p class="text-sm text-gray-500 mt-1">24 Articles</p>
+                </a>
+                
+                <a href="#" class="tag bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                    <div class="text-secondary text-3xl mb-3">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-medium">Business</h3>
+                    <p class="text-sm text-gray-500 mt-1">18 Articles</p>
+                </a>
+                
+                <a href="#" class="tag bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                    <div class="text-accent text-3xl mb-3">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="font-medium">Health</h3>
+                    <p class="text-sm text-gray-500 mt-1">15 Articles</p>
+                </a>
+                
+                <a href="#" class="tag bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                    <div class="text-green-500 text-3xl mb-3">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="font-medium">Lifestyle</h3>
+                    <p class="text-sm text-gray-500 mt-1">22 Articles</p>
+                </a>
+                
+                <a href="#" class="tag bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                    <div class="text-purple-500 text-3xl mb-3">
+                        <i class="fas fa-camera-retro"></i>
+                    </div>
+                    <h3 class="font-medium">Photography</h3>
+                    <p class="text-sm text-gray-500 mt-1">14 Articles</p>
+                </a>
+                
+                <a href="#" class="tag bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                    <div class="text-blue-500 text-3xl mb-3">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3 class="font-medium">Travel</h3>
+                    <p class="text-sm text-gray-500 mt-1">19 Articles</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="bg-primary text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="animate-fade-in">
+                <h2 class="text-3xl md:text-4xl font-serif font-bold mb-6 animate-slide-up">Stay Updated</h2>
+                <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.2s;">
+                    Subscribe to our newsletter and never miss our latest articles and updates.
+                </p>
+                <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto animate-slide-up" style="animation-delay: 0.4s;">
+                    <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 rounded-md text-dark focus:outline-none focus:ring-2 focus:ring-white">
+                    <button type="submit" class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-md font-medium transition duration-300 shadow-lg">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-bolt mr-2 text-primary"></i> Luminous
+                    </h3>
+                    <p class="text-gray-400">
+                        Where ideas shine bright. We publish thought-provoking content to inspire and inform.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Articles</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Categories</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Technology</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Business</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Health</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Lifestyle</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Travel</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-primary"></i>
+                            <span>123 Blog Street, Digital City</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-primary"></i>
+                            <span>oshevirerukevwe7@gmail.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-primary"></i>
+                            <span>+2348107961679</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">
+                    &copy; 2023 Luminous Blog. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white text-sm transition duration-300">Cookies</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+        
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-fade-in, .animate-slide-up');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animateElements.forEach(element => {
+                element.classList.add('opacity-0');
+                observer.observe(element);
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
